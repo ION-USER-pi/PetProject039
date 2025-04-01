@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>petproject039</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a5276;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --code-bg: #1e272e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            overflow-x: hidden;
+        }
+        
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+        
+        nav {
+            background: var(--dark);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            padding: 1rem 0;
+        }
+        
+        .menu {
+            display: flex;
+            list-style-type: none;
+        }
+        
+        .menu li a {
+            color: white;
+            text-decoration: none;
+            padding: 1rem;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        
+        .menu li a:hover {
+            background: var(--secondary);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .feature {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background: var(--code-bg);
+            color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .comment {
+            color: #6c757d;
+        }
+        
+        .keyword {
+            color: #e74c3c;
+        }
+        
+        .string {
+            color: #2ecc71;
+        }
+        
+        .tabs {
+            margin: 2rem 0;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+        
+        .tab-btn.active {
+            border-bottom: 3px solid var(--accent);
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 1rem 0;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: var(--secondary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border: 4px solid var(--secondary);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .left::after {
+            right: -12px;
+        }
+        
+        .right::after {
+            left: -12px;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-date {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--dark);
+                box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            }
+            
+            .menu.active {
+                display: flex;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 20px;
+            }
+            
+            .left::after, .right::after {
+                left: 20px;
+            }
+            
+            .right {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="particles" id="particles"></div>
+        <div class="header-content">
+            <h1>Web Service Modeling Language</h1>
+            <p class="tagline">A formal language for semantic description of web services</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">WSML</a>
+            <button class="hamburger">≡</button>
+            <ul class="menu">
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#variants">Variants</a></li>
+                <li><a href="#syntax">Syntax</a></li>
+                <li><a href="#examples">Examples</a></li>
+                <li><a href="#history">History</a></li>
+                <li><a href="#resources">Resources</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <main>
+        <section id="introduction" class="card">
+            <h2>Introduction to WSML</h2>
+            <p>The Web Service Modeling Language (WSML) provides a formal syntax and semantics for the Web Service Modeling Ontology (WSMO). WSML is a language for semantic web services based on logical formalisms.</p>
+            <p>As a family of languages, WSML consists of several variants that provide different levels of logical expressiveness. This flexibility allows users to make different trade-offs between expressivity and tractability according to their needs.</p>
+            <p>WSML enables the formal description of:</p>
+            <ul>
+                <li>Ontologies that provide the terminology used by other components</li>
+                <li>Web services including their functional and non-functional properties</li>
+                <li>Goals that represent user desires and requests</li>
+                <li>Mediators for handling interoperability issues</li>
+            </ul>
+        </section>
+        
+        <section id="variants">
+            <h2>WSML Variants</h2>
+            <div class="grid">
+                <div class="feature">
+                    <div class="feature-icon">⚓</div>
+                    <h3>WSML-Core</h3>
+                    <p>The intersection of Description Logic and Horn Logic, corresponding to Description Logic Programs. Provides minimal expressive power but maximizes compatibility.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🚀</div>
+                    <h3>WSML-DL</h3>
+                    <p>An extension of WSML-Core that provides the expressive power of Description Logics, corresponding to the SHIQ(D) Description Logic.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🧠</div>
+                    <h3>WSML-Flight</h3>
+                    <p>An extension of WSML-Core based on a logic programming variant of F-Logic, including features such as meta-modeling and constraints.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3>WSML-Rule</h3>
+                    <p>Extends WSML-Flight to a full-fledged logic programming language, allowing function symbols and unsafe rules.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🌐</div>
+                    <h3>WSML-Full</h3>
+                    <p>Unifies all WSML variants under a First-Order Logic with non-monotonic extensions, providing the most expressive capabilities.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="syntax" class="card">
+            <h2>WSML Syntax</h2>
+            <p>WSML has both a normative human-readable syntax and XML and RDF serializations for machine processing. The syntax is designed to be intuitive for users familiar with the frame-based style of modeling.</p>
+            
+            <div class="tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="conceptual">Conceptual Syntax</button>
+                    <button class="tab-btn" data-tab="logical">Logical Expressions</button>
+                    <button class="tab-btn" data-tab="xml">XML Syntax</button>
+                </div>
+                
+                <div class="tab-content active" id="conceptual">
+                    <p>WSML conceptual syntax defines how to specify ontologies, goals, web services and mediators:</p>
+                    <div class="code-block">
+<span class="keyword">namespace</span> {_"http://example.org/wsml/ontologies/example#",
+   dc _"http://purl.org/dc/elements/1.1#"}
+
+<span class="keyword">ontology</span> _"http://example.org/wsml/ontologies/example"
+   <span class="keyword">nonFunctionalProperties</span>
+      dc#title <span class="keyword">hasValue</span> <span class="string">"Example Ontology"</span>
+      dc#creator <span class="keyword">hasValue</span> <span class="string">"Jane Doe"</span>
+   <span class="keyword">endNonFunctionalProperties</span>
+
+   <span class="keyword">concept</span> Person
+      <span class="keyword">hasName</span> <span class="keyword">ofType</span> _string
+      <span class="keyword">hasAge</span> <span class="keyword">ofType</span> _integer
+      <span class="keyword">hasChild</span> <span class="keyword">ofType</span> Person
+
+   <span class="keyword">instance</span> JohnDoe <span class="keyword">memberOf</span> Person
+      <span class="keyword">hasName</span> <span class="keyword">hasValue</span> <span class="string">"John Doe"</span>
+      <span class="keyword">hasAge</span> <span class="keyword">hasValue</span> 35
+</div>
+                </div>
+                
+                <div class="tab-content" id="logical">
+                    <p>WSML logical expressions are used to define constraints, axioms, and capabilities:</p>
+                    <div class="code-block">
+<span class="keyword">axiom</span> AgeRestriction
+   <span class="keyword">definedBy</span>
+      ?x[<span class="keyword">hasAge</span> <span class="keyword">hasValue</span> ?age] <span class="keyword">and</span> ?age < 18
+         <span class="keyword">implies</span> ?x[<span class="keyword">memberOf</span> Child].
+
+<span class="keyword">capability</span> BookingCapability
+   <span class="keyword">precondition</span>
+      <span class="keyword">definedBy</span>
+         ?user[<span class="keyword">hasAccount</span> <span class="keyword">hasValue</span> ?account] <span class="keyword">and</span>
+         ?account[<span class="keyword">accountBalance</span> <span class="keyword">hasValue</span> ?balance] <span class="keyword">and</span>
+         ?balance > 0.
+   <span class="keyword">effect</span>
+      <span class="keyword">definedBy</span>
+         ?user[<span class="keyword">hasReservation</span> <span class="keyword">hasValue</span> ?reservation].
+</div>
+                </div>
+                
+                <div class="tab-content" id="xml">
+                    <p>WSML can be serialized in XML for machine processing:</p>
+                    <div class="code-block">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;wsml:wsml xmlns:wsml="http://www.wsmo.org/wsml/wsml-syntax#"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema#"&gt;
+  &lt;wsml:ontology name="http://example.org/wsml/ontologies/example"&gt;
+    &lt;wsml:nonFunctionalProperties&gt;
+      &lt;wsml:property name="http://purl.org/dc/elements/1.1#title"&gt;
+        &lt;wsml:value type="xsd:string"&gt;Example Ontology&lt;/wsml:value&gt;
+      &lt;/wsml:property&gt;
+    &lt;/wsml:nonFunctionalProperties&gt;
+    
+    &lt;wsml:concept name="Person"&gt;
+      &lt;wsml:attribute name="hasName" type="ofType" dataType="xsd:string"/&gt;
+      &lt;wsml:attribute name="hasAge" type="ofType" dataType="xsd:integer"/&gt;
+      &lt;wsml:attribute name="hasChild" type="ofType" range="Person"/&gt;
+    &lt;/wsml:concept&gt;
+  &lt;/wsml:ontology&gt;
+&lt;/wsml:wsml&gt;
+</div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="examples" class="card">
+            <h2>WSML Examples</h2>
+            <p>Below are examples of WSML in different contexts:</p>
+            
+            <div class="tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="ontology-ex">Ontology</button>
+                    <button class="tab-btn" data-tab="webservice-ex">Web Service</button>
+                    <button class="tab-btn" data-tab="goal-ex">Goal</button>
+                </div>
+                
+                <div class="tab-content active" id="ontology-ex">
+                    <p>A simple e-commerce ontology described in WSML:</p>
+                    <div class="code-block">
+<span class="keyword">namespace</span> {_"http://example.org/ecommerce#",
+   dc _"http://purl.org/dc/elements/1.1#"}
+
+<span class="keyword">ontology</span> _"http://example.org/ecommerce"
+   <span class="keyword">nonFunctionalProperties</span>
+      dc#title <span class="keyword">hasValue</span> <span class="string">"E-Commerce Ontology"</span>
+      dc#description <span class="keyword">hasValue</span> <span class="string">"Basic concepts for e-commerce applications"</span>
+   <span class="keyword">endNonFunctionalProperties</span>
+
+   <span class="keyword">concept</span> Product
+      <span class="keyword">hasName</span> <span class="keyword">ofType</span> _string
+      <span class="keyword">hasPrice</span> <span class="keyword">ofType</span> _decimal
+      <span class="keyword">hasCategory</span> <span class="keyword">ofType</span> Category
+      <span class="keyword">inStock</span> <span class="keyword">ofType</span> _boolean
+
+   <span class="keyword">concept</span> Category
+      <span class="keyword">hasName</span> <span class="keyword">ofType</span> _string
+      <span class="keyword">hasParentCategory</span> <span class="keyword">ofType</span> Category
+
+   <span class="keyword">concept</span> Customer
+      <span class="keyword">hasName</span> <span class="keyword">ofType</span> _string
+      <span class="keyword">hasEmail</span> <span class="keyword">ofType</span> _string
+      <span class="keyword">hasAddress</span> <span class="keyword">ofType</span> Address
+
+   <span class="keyword">concept</span> Order
+      <span class="keyword">hasCustomer</span> <span class="keyword">ofType</span> Customer
+      <span class="keyword">hasOrderDate</span> <span class="keyword">ofType</span> _dateTime
+      <span class="keyword">hasItems</span> <span class="keyword">ofType</span> OrderItem
+      <span class="keyword">hasTotalPrice</span> <span class="keyword">ofType</span> _decimal
+
+   <span class="keyword">concept</span> OrderItem
+      <span class="keyword">hasProduct</span> <span class="keyword">ofType</span> Product
+      <span class="keyword">hasQuantity</span> <span class="keyword">ofType</span> _integer
+</div>
+                </div>
+                
+                <div class="tab-content" id="webservice-ex">
+                    <p>A web service for product ordering:</p>
+                    <div class="code-block">
+<span class="keyword">namespace</span> {_"http://example.org/services/ordering#",
+   dc _"http://purl.org/dc/elements/1.1#",
+   ec _"http://example.org/ecommerce#"}
+
+<span class="keyword">webService</span> _"http://example.org/services/ProductOrderingService"
+   <span class="keyword">nonFunctionalProperties</span>
+      dc#title <span class="keyword">hasValue</span> <span class="string">"Product Ordering Service"</span>
+      dc#description <span class="keyword">hasValue</span> <span class="string">"Service for ordering products"</span>
+   <span class="keyword">endNonFunctionalProperties</span>
+
+   <span class="keyword">capability</span> OrderingCapability
+      <span class="keyword">nonFunctionalProperties</span>
+         dc#description <span class="keyword">hasValue</span> <span class="string">"Capability of ordering products"</span>
+      <span class="keyword">endNonFunctionalProperties</span>
+      
+      <span class="keyword">precondition</span>
+         <span class="keyword">definedBy</span>
+            ?customer[<span class="keyword">memberOf</span> ec#Customer] <span class="keyword">and</span>
+            ?product[<span class="keyword">memberOf</span> ec#Product] <span class="keyword">and</span>
+            ?product[ec#inStock <span class="keyword">hasValue</span> <span class="keyword">true</span>] <span class="keyword">and</span>
+            ?quantity[<span class="keyword">memberOf</span> _integer] <span class="keyword">and</span>
+            ?quantity > 0.
+            
+      <span class="keyword">effect</span>
+         <span class="keyword">definedBy</span>
+            ?order[<span class="keyword">memberOf</span> ec#Order] <span class="keyword">and</span>
+            ?order[ec#hasCustomer <span class="keyword">hasValue</span> ?customer] <span class="keyword">and</span>
+            ?orderItem[<span class="keyword">memberOf</span> ec#OrderItem] <span class="keyword">and</span>
+            ?orderItem[ec#hasProduct <span class="keyword">hasValue</span> ?product] <span class="keyword">and</span>
+            ?orderItem[ec#hasQuantity <span class="keyword">hasValue</span> ?quantity] <span class="keyword">and</span>
+            ?order[ec#hasItems <span class="keyword">hasValue</span> ?orderItem].
+
+   <span class="keyword">interface</span> OrderingInterface
+      <span class="keyword">choreography</span> OrderingChoreography
+         <span class="comment">// Choreography definition here</span>
+      <span class="keyword">orchestration</span> OrderingOrchestration
+         <span class="comment">// Orchestration definition here</span>
+</div>
+                </div>
+                
+                <div class="tab-content" id="goal-ex">
+                    <p>A goal to find and order a product:</p>
+                    <div class="code-block">
+<span class="keyword">namespace</span> {_"http://example.org/goals/ordering#",
+   dc _"http://purl.org/dc/elements/1.1#",
+   ec _"http://example.org/ecommerce#"}
+
+<span class="keyword">goal</span> _"http://example.org/goals/OrderProduct"
+   <span class="keyword">nonFunctionalProperties</span>
+      dc#title <span class="keyword">hasValue</span> <span class="string">"Order Product Goal"</span>
+      dc#description <span class="keyword">hasValue</span> <span class="string">"Goal of ordering a specific product"</span>
+   <span class="keyword">endNonFunctionalProperties</span>
+
+   <span class="keyword">capability</span>
+      <span class="keyword">postcondition</span>
+         <span class="keyword">definedBy</span>
+            ?customer[<span class="keyword">memberOf</span> ec#Customer] <span class="keyword">and</span>
+            ?customer[ec#hasName <span class="keyword">hasValue</span> <span class="string">"John Smith"</span>] <span class="keyword">and</span>
+            ?product[<span class="keyword">memberOf</span> ec#Product] <span class="keyword">and</span>
+            ?product[ec#hasName <span class="keyword">hasValue</span> <span class="string">"Smartphone XYZ"</span>] <span class="keyword">and</span>
+            ?order[<span class="keyword">memberOf</span> ec#Order] <span class="keyword">and</span>
+            ?order[ec#hasCustomer <span class="keyword">hasValue</span> ?customer] <span class="keyword">and</span>
+            ?orderItem[<span class="keyword">memberOf</span> ec#OrderItem] <span class="keyword">and</span>
+            ?orderItem[ec#hasProduct <span class="keyword">hasValue</span> ?product] <span class="keyword">and</span>
+            ?orderItem[ec#hasQuantity <span class="keyword">hasValue</span> 1] <span class="keyword">and</span>
+            ?order[ec#hasItems <span class="keyword">hasValue</span> ?orderItem].
+</div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="history" class="card">
+            <h2>History & Evolution</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3 class="timeline-date">Early 2000s</h3>
+                        <p>Research on semantic web services begins with frameworks like OWL-S and WSMF (Web Service Modeling Framework).</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3 class="timeline-date">2004</h3>
+                        <p>WSMO (Web Service Modeling Ontology) is developed as a conceptual model for semantic web services.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3 class="timeline-date">2005</h3>
+                        <p>WSML is introduced as a family of languages to formalize WSMO, providing different levels of logical expressiveness.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3 class="timeline-date">2006-2008</h3>
+                        <p>Refinement of WSML variants, with implementations in various reasoning systems and toolsets like WSMT (Web Service Modeling Toolkit).</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3 class="timeline-date">2010s</h3>
+                        <p>Integration with other semantic web technologies and standards, continuing development within the broader semantic web services ecosystem.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="resources" class="card">
+            <h2>Resources & Tools</h2>
+            <p>Several tools and frameworks have been developed for working with WSML:</p>
+            <ul>
+                <li><strong>WSMO4J</strong> - A Java API for programmatic creation, manipulation and access to WSMO elements</li>
+                <li><strong>WSML2Reasoner</strong> - A framework for reasoning with WSML ontologies</li>
+                <li><strong>WSMT (Web Service Modeling Toolkit)</strong> - An integrated environment for semantic web services</li>
+                <li><strong>WSML Validator</strong> - For checking the syntax and semantics of WSML documents</li>
+                <li><strong>WSML Validator</strong> - For checking the syntax and semantics of WSML documents</li>
+                <li><strong>WSMO Studio</strong> - An Eclipse-based integrated development environment for WSMO</li>
+                <li><strong>WSMX (Web Service Execution Environment)</strong> - A reference implementation of WSMO</li>
+            </ul>
+            
+            <p>For further information and resources, you can explore:</p>
+            <ul>
+                <li>The WSML working group documentation</li>
+                <li>Research papers on semantic web services</li>
+                <li>Online tutorials and examples</li>
+            </ul>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Web Service Modeling Language (WSML) Information Portal</p>
+            <p>This is an educational resource for understanding WSML and its applications in semantic web services.</p>
+        </div>
+    </footer>
+    
+    <a href="#" class="back-to-top" id="backToTop">↑</a>
+    
+    <script>
+        $(document).ready(function() {
+            // Particle animation for header
+            function createParticle() {
+                const particle = $('<div></div>');
+                particle.css({
+                    'position': 'absolute',
+                    'width': Math.random() * 5 + 3 + 'px',
+                    'height': Math.random() * 5 + 3 + 'px',
+                    'background-color': 'rgba(255, 255, 255, ' + (Math.random() * 0.5 + 0.2) + ')',
+                    'border-radius': '50%',
+                    'top': Math.random() * 100 + '%',
+                    'left': Math.random() * 100 + '%'
+                });
+                
+                $('#particles').append(particle);
+                
+                gsap.to(particle, {
+                    duration: Math.random() * 3 + 2,
+                    x: (Math.random() - 0.5) * 100,
+                    y: (Math.random() - 0.5) * 100,
+                    opacity: 0,
+                    onComplete: function() {
+                        particle.remove();
+                        createParticle();
+                    }
+                });
+            }
+            
+            // Create initial particles
+            for (let i = 0; i < 30; i++) {
+                createParticle();
+            }
+            
+            // Mobile menu toggle
+            $('.hamburger').on('click', function() {
+                $('.menu').toggleClass('active');
+            });
+            
+            // Smooth scrolling for navigation
+            $('nav a').on('click', function(e) {
+                e.preventDefault();
+                const target = $(this).attr('href');
+                $('html, body').animate({
+                    scrollTop: $(target).offset().top - $('nav').outerHeight()
+                }, 800);
+                $('.menu').removeClass('active');
+            });
+            
+            // Tab functionality
+            $('.tab-btn').on('click', function() {
+                const tab = $(this).data('tab');
+                $('.tab-btn').removeClass('active');
+                $(this).addClass('active');
+                $('.tab-content').removeClass('active');
+                $('#' + tab).addClass('active');
+            });
+            
+            // Back to top button
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 300) {
+                    $('#backToTop').addClass('show');
+                } else {
+                    $('#backToTop').removeClass('show');
+                }
+            });
+            
+            $('#backToTop').on('click', function(e) {
+                e.preventDefault();
+                $('html, body').animate({scrollTop: 0}, 800);
+            });
+            
+            // Animation for elements as they come into view
+            function animateOnScroll() {
+                $('.card, .feature, .timeline-item').each(function() {
+                    const elementTop = $(this).offset().top;
+                    const elementHeight = $(this).outerHeight();
+                    const windowHeight = $(window).height();
+                    const scrollY = $(window).scrollTop();
+                    
+                    if (scrollY > elementTop - windowHeight + elementHeight / 3) {
+                        $(this).addClass('animated');
+                    }
+                });
+            }
+            
+            // Add animation class for styling
+            $('<style>')
+                .text(`
+                    .card, .feature, .timeline-item {
+                        opacity: 0;
+                        transform: translateY(30px);
+                        transition: opacity 0.7s ease, transform 0.7s ease;
+                    }
+                    .card.animated, .feature.animated, .timeline-item.animated {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                `)
+                .appendTo('head');
+            
+            $(window).on('scroll', animateOnScroll);
+            animateOnScroll(); // Run once on page load
+            
+            // Interactive code highlighting
+            $('.code-block').each(function() {
+                $(this).html($(this).html().replace(/&lt;/g, '<').replace(/&gt;/g, '>'));
+            });
+            
+            // Responsive adjustments
+            function handleResize() {
+                if ($(window).width() > 768) {
+                    $('.menu').css('display', '');
+                }
+            }
+            
+            $(window).on('resize', handleResize);
+            
+            // Add some interactive elements to features
+            $('.feature').on('mouseenter', function() {
+                gsap.to($(this).find('.feature-icon'), {
+                    duration: 0.5,
+                    scale: 1.2,
+                    rotate: 10,
+                    ease: "back.out(1.7)"
+                });
+            }).on('mouseleave', function() {
+                gsap.to($(this).find('.feature-icon'), {
+                    duration: 0.5,
+                    scale: 1,
+                    rotate: 0,
+                    ease: "power2.out"
+                });
+            });
+            
+            // Dynamic syntax highlighting for code examples
+            function highlightSyntax() {
+                $('.code-block').each(function() {
+                    let content = $(this).html();
+                    
+                    // Keywords
+                    const keywords = ['namespace', 'ontology', 'concept', 'instance', 'relation', 'axiom', 'definedBy', 'capability', 'interface', 'choreography', 'orchestration', 'webService', 'goal', 'mediator', 'nonFunctionalProperties', 'endNonFunctionalProperties', 'hasValue', 'ofType', 'impliesType', 'memberOf', 'subConceptOf', 'and', 'or', 'implies', 'true', 'false', 'precondition', 'assumption', 'postcondition', 'effect'];
+                    
+                    keywords.forEach(keyword => {
+                        const regex = new RegExp(`\\b${keyword}\\b`, 'g');
+                        content = content.replace(regex, `<span class="keyword">${keyword}</span>`);
+                    });
+                    
+                    // Strings
+                    content = content.replace(/"([^"]*)"/g, '<span class="string">"$1"</span>');
+                    
+                    // Comments
+                    content = content.replace(/\/\/(.*)/g, '<span class="comment">// $1</span>');
+                    
+                    $(this).html(content);
+                });
+            }
+            
+            highlightSyntax();
+            
+            // Add interactive search functionality
+            $('<div class="search-container">')
+                .html(`
+                    <input type="text" placeholder="Search WSML concepts..." id="searchInput" class="search-input">
+                    <div id="searchResults" class="search-results"></div>
+                `)
+                .insertAfter('nav');
+            
+            $('<style>')
+                .text(`
+                    .search-container {
+                        max-width: 1200px;
+                        margin: 1rem auto;
+                        padding: 0 1rem;
+                    }
+                    .search-input {
+                        width: 100%;
+                        padding: 0.75rem;
+                        font-size: 1rem;
+                        border: 2px solid var(--secondary);
+                        border-radius: 4px;
+                        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                    }
+                    .search-results {
+                        background: white;
+                        border-radius: 4px;
+                        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                        margin-top: 0.5rem;
+                        max-height: 300px;
+                        overflow-y: auto;
+                        display: none;
+                    }
+                    .search-result-item {
+                        padding: 0.75rem;
+                        border-bottom: 1px solid #eee;
+                        cursor: pointer;
+                    }
+                    .search-result-item:hover {
+                        background: #f5f5f5;
+                    }
+                    .search-result-title {
+                        font-weight: bold;
+                        color: var(--primary);
+                    }
+                    .search-result-description {
+                        font-size: 0.9rem;
+                        color: #666;
+                    }
+                `)
+                .appendTo('head');
+            
+            // Simple search functionality
+            const searchableItems = [
+                { title: "WSML-Core", description: "Basic variant with minimal expressivity", target: "#variants" },
+                { title: "WSML-DL", description: "Description Logic based variant", target: "#variants" },
+                { title: "WSML-Flight", description: "Logic programming variant with constraints", target: "#variants" },
+                { title: "WSML-Rule", description: "Full logic programming language", target: "#variants" },
+                { title: "WSML-Full", description: "Most expressive WSML variant", target: "#variants" },
+                { title: "Ontology Example", description: "Sample e-commerce ontology in WSML", target: "#ontology-ex" },
+                { title: "Web Service Example", description: "Product ordering service in WSML", target: "#webservice-ex" },
+                { title: "Goal Example", description: "Sample goal definition in WSML", target: "#goal-ex" },
+                { title: "WSML Syntax", description: "Formal syntax of WSML", target: "#syntax" },
+                { title: "WSML History", description: "Evolution of WSML", target: "#history" },
+                { title: "WSML Resources", description: "Tools and frameworks for WSML", target: "#resources" }
+            ];
+            
+            $('#searchInput').on('input', function() {
+                const query = $(this).val().toLowerCase();
+                const $results = $('#searchResults');
+                
+                if (query.length < 2) {
+                    $results.hide();
+                    return;
+                }
+                
+                $results.empty();
+                
+                const filteredItems = searchableItems.filter(item => 
+                    item.title.toLowerCase().includes(query) || 
+                    item.description.toLowerCase().includes(query)
+                );
+                
+                if (filteredItems.length > 0) {
+                    filteredItems.forEach(item => {
+                        $('<div class="search-result-item">')
+                            .html(`
+                                <div class="search-result-title">${item.title}</div>
+                                <div class="search-result-description">${item.description}</div>
+                            `)
+                            .on('click', function() {
+                                $('html, body').animate({
+                                    scrollTop: $(item.target).offset().top - $('nav').outerHeight()
+                                }, 800);
+                                $results.hide();
+                                $('#searchInput').val('');
+                            })
+                            .appendTo($results);
+                    });
+                    $results.show();
+                } else {
+                    $results.html('<div class="search-result-item">No results found</div>').show();
+                }
+            });
+            
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.search-container').length) {
+                    $('#searchResults').hide();
+                }
+            });
+            
+            // Add a theme switcher
+            $('<div class="theme-switcher">')
+                .html(`
+                    <button class="theme-btn" data-theme="light">Light</button>
+                    <button class="theme-btn" data-theme="dark">Dark</button>
+                    <button class="theme-btn" data-theme="blue">Blue</button>
+                `)
+                .appendTo('footer .footer-content');
+            
+            $('<style>')
+                .text(`
+                    .theme-switcher {
+                        margin-top: 1rem;
+                        display: flex;
+                        justify-content: center;
+                        gap: 0.5rem;
+                    }
+                    .theme-btn {
+                        padding: 0.5rem 1rem;
+                        background: var(--secondary);
+                        color: white;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    }
+                    .theme-btn:hover {
+                        background: var(--accent);
+                    }
+                    
+                    /* Dark theme */
+                    body.theme-dark {
+                        background: #121212;
+                        color: #e0e0e0;
+                    }
+                    .theme-dark .card, .theme-dark .feature, .theme-dark .timeline-content {
+                        background: #1e1e1e;
+                        color: #e0e0e0;
+                    }
+                    .theme-dark h2 {
+                        color: var(--secondary);
+                    }
+                    .theme-dark .search-input, .theme-dark .search-results {
+                        background: #1e1e1e;
+                        color: #e0e0e0;
+                        border-color: var(--secondary);
+                    }
+                    .theme-dark .search-result-item {
+                        border-color: #333;
+                    }
+                    .theme-dark .search-result-item:hover {
+                        background: #2a2a2a;
+                    }
+                    
+                    /* Blue theme */
+                    body.theme-blue {
+                        background: linear-gradient(135deg, #1a2a6c 0%, #2a4858 100%);
+                        color: #e0e0e0;
+                    }
+                    .theme-blue .card, .theme-blue .feature, .theme-blue .timeline-content {
+                        background: rgba(30, 50, 92, 0.8);
+                        color: #e0e0e0;
+                        backdrop-filter: blur(5px);
+                        border: 1px solid rgba(255,255,255,0.1);
+                    }
+                    .theme-blue h2 {
+                        color: #4fc3f7;
+                    }
+                    .theme-blue .search-input, .theme-blue .search-results {
+                        background: rgba(30, 50, 92, 0.8);
+                        color: #e0e0e0;
+                        border-color: #4fc3f7;
+                    }
+                    .theme-blue .search-result-item {
+                        border-color: rgba(255,255,255,0.1);
+                    }
+                    .theme-blue .search-result-item:hover {
+                        background: rgba(79, 195, 247, 0.2);
+                    }
+                    .theme-blue nav {
+                        background: rgba(20, 30, 48, 0.9);
+                    }
+                    .theme-blue footer {
+                        background: rgba(20, 30, 48, 0.9);
+                    }
+                `)
+                .appendTo('head');
+            
+            $('.theme-btn').on('click', function() {
+                const theme = $(this).data('theme');
+                $('body').removeClass('theme-light theme-dark theme-blue').addClass('theme-' + theme);
+            });
+            
+            // Add interactive demo section
+            $('<section id="demo" class="card">')
+                .html(`
+                    <h2>Interactive WSML Demo</h2>
+                    <p>Try building a simple WSML concept by filling in the fields below:</p>
+                    <div class="demo-container">
+                        <div class="demo-form">
+                            <div class="form-group">
+                                <label for="conceptName">Concept Name:</label>
+                                <input type="text" id="conceptName" placeholder="e.g., Person" value="Customer">
+                            </div>
+                            <div class="form-group">
+                                <label for="attribute1">Attribute 1:</label>
+                                <input type="text" id="attribute1" placeholder="Name" value="customerName">
+                                <select id="type1">
+                                    <option value="_string">String</option>
+                                    <option value="_integer">Integer</option>
+                                    <option value="_decimal">Decimal</option>
+                                    <option value="_boolean">Boolean</option>
+                                    <option value="_dateTime">DateTime</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="attribute2">Attribute 2:</label>
+                                <input type="text" id="attribute2" placeholder="Age" value="customerID">
+                                <select id="type2">
+                                    <option value="_string">String</option>
+                                    <option value="_integer" selected>Integer</option>
+                                    <option value="_decimal">Decimal</option>
+                                    <option value="_boolean">Boolean</option>
+                                    <option value="_dateTime">DateTime</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="attribute3">Attribute 3:</label>
+                                <input type="text" id="attribute3" placeholder="Email" value="isPremium">
+                                <select id="type3">
+                                    <option value="_string">String</option>
+                                    <option value="_integer">Integer</option>
+                                    <option value="_decimal">Decimal</option>
+                                    <option value="_boolean" selected>Boolean</option>
+                                    <option value="_dateTime">DateTime</option>
+                                </select>
+                            </div>
+                            <button id="generateBtn" class="demo-btn">Generate WSML</button>
+                        </div>
+                        <div class="demo-output">
+                            <pre id="wsmlOutput" class="code-block">
+<span class="keyword">namespace</span> {_"http://example.org/ontologies/customer#"}
+
+<span class="keyword">ontology</span> _"http://example.org/ontologies/customer"
+
+   <span class="keyword">concept</span> Customer
+      <span class="keyword">customerName</span> <span class="keyword">ofType</span> _string
+      <span class="keyword">customerID</span> <span class="keyword">ofType</span> _integer
+      <span class="keyword">isPremium</span> <span class="keyword">ofType</span> _boolean</pre>
+                        </div>
+                    </div>
+                `)
+                .insertBefore('footer');
+            
+            $('<style>')
+                .text(`
+                    .demo-container {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 2rem;
+                        margin-top: 1.5rem;
+                    }
+                    .demo-form {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 1rem;
+                    }
+                    .form-group {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.5rem;
+                    }
+                    .form-group input, .form-group select {
+                        padding: 0.75rem;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                        font-size: 1rem;
+                    }
+                    .demo-btn {
+                        padding: 0.75rem 1.5rem;
+                        background: var(--accent);
+                        color: white;
+                        border: none;
+                        border-radius: 4px;
+                        font-size: 1rem;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        margin-top: 1rem;
+                    }
+                    .demo-btn:hover {
+                        background: var(--primary);
+                    }
+                    .demo-output pre {
+                        height: 100%;
+                        margin: 0;
+                    }
+                    @media (max-width: 768px) {
+                        .demo-container {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                `)
+                .appendTo('head');
+            
+            $('#generateBtn').on('click', function() {
+                const conceptName = $('#conceptName').val() || 'Concept';
+                const attribute1 = $('#attribute1').val() || 'attribute1';
+                const type1 = $('#type1').val();
+                const attribute2 = $('#attribute2').val() || 'attribute2';
+                const type2 = $('#type2').val();
+                const attribute3 = $('#attribute3').val() || 'attribute3';
+                const type3 = $('#type3').val();
+                
+                const wsmlCode = `<span class="keyword">namespace</span> {_"http://example.org/ontologies/${conceptName.toLowerCase()}#"}
+
+<span class="keyword">ontology</span> _"http://example.org/ontologies/${conceptName.toLowerCase()}"
+
+   <span class="keyword">concept</span> ${conceptName}
+      <span class="keyword">${attribute1}</span> <span class="keyword">ofType</span> ${type1}
+      <span class="keyword">${attribute2}</span> <span class="keyword">ofType</span> ${type2}
+      <span class="keyword">${attribute3}</span> <span class="keyword">ofType</span> ${type3}`;
+                
+                $('#wsmlOutput').html(wsmlCode);
+                
+                // Animate the output
+                gsap.fromTo('#wsmlOutput', 
+                    { opacity: 0.5, y: 10 }, 
+                    { opacity: 1, y: 0, duration: 0.5 }
+                );
+            });
+        });
+    </script>
+</body>
+</html>
